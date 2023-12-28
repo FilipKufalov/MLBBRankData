@@ -13,26 +13,24 @@ fetch("https://api.mobilelegends.com/m/hero/getRankData", {
     .then((response) => response.json())
     .then((json) => { myFunction(json); });
 
-var table = document.getElementById("rankDataTable")
+function myFunction(rankData) {
+    let data = rankData.data.data;
 
-function myFunction(rankData)
-{
-    for (let i = 0; i < rankData.data.data.length; i++) {
-        var tr = document.createElement("tr")
-        var tdName = document.createElement("td")
-        var tdWin = document.createElement("td")
-        var tdPicked = document.createElement("td")
-        var tdBanned = document.createElement("td")
-    
-        tdName.innerHTML = rankData.data.data[i].name
-        tdWin.innerHTML = rankData.data.data[i].win
-        tdPicked.innerHTML = rankData.data.data[i].use
-        tdBanned.innerHTML = rankData.data.data[i].ban
-    
-        tr.append(tdName)
-        tr.append(tdWin)
-        tr.append(tdPicked)
-        tr.append(tdBanned)
-        table.append(tr)
-    }
+    document.querySelector("#container").innerHTML = `
+    <table class="styled-table">
+    <tr>
+        <th>Hero</th>
+        <th>Win</th>
+        <th>Picked</th>
+        <th>Banned</th>
+    </tr>
+        ${data.map(e => `
+        <tr>
+        <td><img alt="icon" src="${e.avatar}"><div class="text">${e.name}</div></td>
+        <td>${e.win}</td>
+        <td>${e.use}</td>
+        <td>${e.ban}</td>
+    </tr>
+    `).join('')}
+    </table>`;
 }
